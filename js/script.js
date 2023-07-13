@@ -94,11 +94,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let iconHeart = '<svg width="48" height="48"><use href="images/svg-icons.svg#heart"></use></svg>'
     let costFieldCalc = document.querySelector('.calc__cost');
     noUiSlider.create(sliderCalc, {
-      start: 35,
+      start: 50,
       connect: [true, false],
-      range: {
+      /* range: {
         'min': 0,
         'max': 5000
+      }, */
+      range: {
+        'min': [0, 10],
+        '10%': [1000, 100],
+        'max': [10000]
       },
       tooltips: {
         to: function (value) {
@@ -107,9 +112,9 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     });
     sliderCalc.noUiSlider.on('set', function (values) {
-      costFieldCalc.innerHTML = '€' + (Math.ceil(values * 0.05 * 100) / 100);
+      costFieldCalc.innerHTML = '€' + (Math.ceil(values * 0.053 * 100) / 100);
     });
-    costFieldCalc.innerHTML = '€' + (Math.ceil(sliderCalc.noUiSlider.options.start * 0.05 * 100) / 100);
+    costFieldCalc.innerHTML = '€' + (Math.ceil(sliderCalc.noUiSlider.options.start * 0.053 * 100) / 100);
   }
   //-range-slider
 
@@ -119,7 +124,15 @@ document.addEventListener("DOMContentLoaded", function () {
       let targetId = this.getAttribute('href') || '#' + this.getAttribute('data-anchor');
       if (!targetId) return;
       e.preventDefault();
-      doScrolling(document.querySelector(targetId).getBoundingClientRect().top - 10 + window.scrollY, 0.5);
+      let elementY = document.querySelector(targetId).getBoundingClientRect().top - 20 + window.scrollY
+      if (window.CSS.supports('scroll-behavior', 'smooth')) {
+        window.scrollTo({
+          top: elementY,
+          behavior: 'smooth'
+        })
+      } else {
+        doScrolling(elementY, 0.5);
+      }
     })
   })
   function doScrolling(elementY, speed) {
@@ -181,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
         prevEl: ".swiper-button-review-prev-" + index,
       },
       breakpoints: {
-        992: {
+        768: {
           slidesPerView: 2,
         }
       }
@@ -189,21 +202,33 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   var swiperGrid = new Swiper(".slider-grid", {
     slidesPerView: 'auto',
-    spaceBetween: 0,
+    spaceBetween: 2,
     touchEventsTarget: 'container',
     autoHeight: true,
     observer: true,
     observeParents: true,
     enabled: true,
     breakpoints: {
-      992: {
-        enabled: false,
+      1024: {
+        spaceBetween: 0,
         autoHeight: false,
       }
+    },
+    on: {
+      breakpoint: function (swiper, param) {
+        if (!param.autoHeight) {
+          swiper.slideTo(0, 0, false);
+          swiper.disable();
+          swiper.wrapperEl.style.height = '';
+          swiper.wrapperEl.style.transform = '';
+        } else {
+          swiper.enable();
+        }
+      },
     }
   });
-
   //-slider
+  
   //+masonry
   let gridAllServices = document.querySelector('.all-services-grid');
   var msnryAll;
@@ -211,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var msnryBest;
 
   let wWidth = window.innerWidth;
-  window.addEventListener('resize', function () {
+  window.addEventListener('resize', throttle(function () {
     wWidth = window.innerWidth;
     if (wWidth > 767) {
       if (gridBestServices && !msnryBest) {
@@ -236,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
         msnryAll = null;
       }
     }
-  });
+  }, 300));
   window.dispatchEvent(new Event('resize'));
   //-masonry
 });

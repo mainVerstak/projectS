@@ -2773,8 +2773,7 @@ body._menu-open .wrapper {
   margin-bottom: 2px;
 }
 
-.contacts-map__map {
-  display: block;
+.contacts-map iframe {
   width: 100%;
   height: 100%;
 }

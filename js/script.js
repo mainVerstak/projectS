@@ -310,6 +310,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var msnryAll;
   let gridBestServices = document.querySelector('.best-services-grid');
   var msnryBest;
+  let gridCrew = document.querySelector('.crew-grid');
+  var msnryCrew;
 
   let wWidth = window.innerWidth;
   let wHeight = window.innerHeight;
@@ -329,6 +331,13 @@ document.addEventListener("DOMContentLoaded", function () {
           percentPosition: true,
         });
       }
+      if (gridCrew && !msnryCrew) {
+        msnryCrew = new Masonry(gridCrew, {
+          itemSelector: '.crew-grid__item',
+          percentPosition: true,
+          horizontalOrder: true
+        });
+      }
     } else {
       if (gridBestServices && msnryBest) {
         msnryBest.destroy();
@@ -338,10 +347,54 @@ document.addEventListener("DOMContentLoaded", function () {
         msnryAll.destroy();
         msnryAll = null;
       }
+      if (gridCrew && msnryCrew) {
+        msnryCrew.destroy();
+        msnryCrew = null;
+      }
     }
   }, 300));
   window.dispatchEvent(new Event('resize'));
   //-masonry
+
+  //+map(contacts)
+  function initMap() {
+    if (document.getElementById("contacts-map"))
+      initMapCompany();
+  }
+  window.initMap = initMap;
+  function initMapCompany() {
+    const address = ['Harju maakond, Tallin, Kesklinna linnaosa, Roseni tn 13, 10111', 59.439575, 24.7550666]
+    const mapPin = {
+      url: './images/map-pin.svg',
+      size: new google.maps.Size(48, 48),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(24, 40),
+    };
+    const mapCenter = { lat: address[1], lng: address[2] };
+    const map = new google.maps.Map(document.getElementById("contacts-map"), {
+      zoom: 16,
+      mapTypeControl: false,
+      center: mapCenter,
+      styles: mapStyle
+    });
+    let marker = new google.maps.Marker({
+      position: { lat: address[1], lng: address[2] },
+      map,
+      title: address[0],
+      icon: mapPin,
+    })
+    const infowindow = new google.maps.InfoWindow({
+      content: '<div class="map-info-window-text">' + address[0] + '</div>',
+      ariaLabel: "Address",
+    });
+    marker.addListener("click", () => {
+      infowindow.open({
+        anchor: marker,
+        map,
+      });
+    });
+  }
+  //-map
 });
 
 function elIndex(el) {
@@ -373,3 +426,164 @@ function throttle(func, limit) {
     }
   }
 }
+
+const mapStyle = [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#f5f5f5"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#616161"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#f5f5f5"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#bdbdbd"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#eeeeee"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#e5e5e5"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9e9e9e"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#ffffff"
+      }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#dadada"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#616161"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9e9e9e"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.line",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#e5e5e5"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#eeeeee"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#c9c9c9"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9e9e9e"
+      }
+    ]
+  }
+]

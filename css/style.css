@@ -2031,15 +2031,27 @@ body._menu-open .wrapper {
   margin-bottom: 30px;
   width: 100%;
   display: flex;
+  align-items: flex-start;
 }
 
 .buy-info__trust-link {
   display: flex;
+  margin-right: 40px;
 }
 
 .buy-info__trust-img {
   width: 100%;
   max-width: 170px;
+}
+
+.buy-info__sitejabber-link {
+  display: flex;
+  margin-top: 6px;
+}
+
+.buy-info__sitejabber-img {
+  width: 100%;
+  max-width: 200px;
 }
 
 .buy-info__guarantee {
@@ -2145,6 +2157,18 @@ body._menu-open .wrapper {
 
 .buy-form__payment-type .radio-payment:last-child {
   margin-bottom: 0;
+}
+
+.buy-form__secure-payment {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buy-form__secure-payment img {
+  max-width: 460px;
+  width: 100%;
 }
 
 .radio-payment {
@@ -2999,6 +3023,42 @@ body._menu-open .wrapper {
   padding: 7px 30px;
 }
 
+.popup-cookie__close {
+  margin-left: 15px;
+  position: relative;
+  width: 22px;
+  height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+  color: #7A4AF7;
+}
+
+.popup-cookie__close::before,
+.popup-cookie__close::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 4px;
+  position: absolute;
+  top: 12px;
+  left: 0px;
+  background: currentColor;
+  transition-duration: 0.35s;
+}
+
+.popup-cookie__close::before {
+  transform: rotate(45deg);
+}
+
+.popup-cookie__close::after {
+  transform: rotate(-45deg);
+}
+
+.popup-cookie__close:hover {
+  color: #667198;
+}
+
 @media screen and (min-width: 992px) {
   .header._fixed .full-menu__content {
     padding-top: 60px;
@@ -3758,6 +3818,10 @@ body._menu-open .wrapper {
     max-width: 150px;
   }
 
+  .buy-info__sitejabber-img {
+    max-width: 170px;
+  }
+
   .buy-form {
     padding: 20px;
   }
@@ -4286,8 +4350,20 @@ body._menu-open .wrapper {
     margin-top: 10px;
   }
 
+  .buy-info__trust-link {
+    margin-right: 20px;
+  }
+
   .buy-info__trust-img {
     max-width: 120px;
+  }
+
+  .buy-info__sitejabber-link {
+    margin-top: 4px;
+  }
+
+  .buy-info__sitejabber-img {
+    max-width: 140px;
   }
 
   .buy-form__row-grid {

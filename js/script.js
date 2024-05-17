@@ -29,6 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll('.popup-cookie').forEach(function (popup) {
         popup.classList.add('_active')
       });
+    } else {
+      setCookie("cookie_accepted", "true", 365);
     }
   })();
   document.querySelectorAll('.js-cookie-accept').forEach(function (btn) {

@@ -2031,7 +2031,7 @@ body._menu-open .wrapper {
   margin-bottom: 30px;
   width: 100%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .buy-info__trust-link {
@@ -2046,7 +2046,6 @@ body._menu-open .wrapper {
 
 .buy-info__sitejabber-link {
   display: flex;
-  margin-top: 6px;
 }
 
 .buy-info__sitejabber-img {
@@ -4356,10 +4355,6 @@ body._menu-open .wrapper {
 
   .buy-info__trust-img {
     max-width: 120px;
-  }
-
-  .buy-info__sitejabber-link {
-    margin-top: 4px;
   }
 
   .buy-info__sitejabber-img {

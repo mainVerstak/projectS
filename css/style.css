@@ -2027,6 +2027,21 @@ body._menu-open .wrapper {
   flex-shrink: 0;
 }
 
+.buy-info__trust {
+  margin-bottom: 30px;
+  width: 100%;
+  display: flex;
+}
+
+.buy-info__trust-link {
+  display: flex;
+}
+
+.buy-info__trust-img {
+  width: 100%;
+  max-width: 170px;
+}
+
 .buy-info__guarantee {
   margin-top: auto;
   display: flex;
@@ -2922,6 +2937,68 @@ body._menu-open .wrapper {
   color: #667198;
 }
 
+.popup-cookie {
+  position: fixed;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  display: none;
+  z-index: 500;
+  max-height: 100%;
+  pointer-events: none;
+}
+
+.popup-cookie._active {
+  display: block;
+}
+
+.popup-cookie__outer {
+  padding: 5px 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.popup-cookie__inner {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 500px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #C7F74A;
+  box-shadow: 0 0 4px #C7F74A;
+  background: #fff;
+  color: #667198;
+  pointer-events: all;
+}
+
+.popup-cookie__text {
+  font-size: 14px;
+  margin-right: 15px;
+}
+
+.popup-cookie__text-mobile {
+  display: none;
+}
+
+.popup-cookie__link {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.popup-cookie__link:hover {
+  color: #7A4AF7;
+}
+
+.popup-cookie__btn {
+  height: 30px;
+  padding: 7px 30px;
+}
+
 @media screen and (min-width: 992px) {
   .header._fixed .full-menu__content {
     padding-top: 60px;
@@ -3677,6 +3754,10 @@ body._menu-open .wrapper {
     margin-bottom: 2px;
   }
 
+  .buy-info__trust-img {
+    max-width: 150px;
+  }
+
   .buy-form {
     padding: 20px;
   }
@@ -4094,6 +4175,31 @@ body._menu-open .wrapper {
   .history-item__text {
     width: 100%;
   }
+
+  .popup-cookie__outer {
+    justify-content: flex-start;
+  }
+
+  .popup-cookie__inner {
+    padding: 7px 10px;
+  }
+
+  .popup-cookie__text {
+    font-size: 13px;
+  }
+
+  .popup-cookie__text-desktop {
+    display: none;
+  }
+
+  .popup-cookie__text-mobile {
+    display: block;
+  }
+
+  .popup-cookie__btn {
+    padding: 5px 15px;
+    height: 26px;
+  }
 }
 
 @media screen and (max-width: 479px) {
@@ -4178,6 +4284,10 @@ body._menu-open .wrapper {
   .buy-info__badge-text {
     width: 100%;
     margin-top: 10px;
+  }
+
+  .buy-info__trust-img {
+    max-width: 120px;
   }
 
   .buy-form__row-grid {

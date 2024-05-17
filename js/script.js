@@ -1,6 +1,14 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function () {
+
+  document.querySelectorAll('.js-cookie-accept').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      let popup = btn.closest('.popup-cookie');
+      popup.classList.remove('_active');
+    })
+  });
+
   //+float header 
   let header = document.querySelector('.header');
   let wScroll = window.scrollY;

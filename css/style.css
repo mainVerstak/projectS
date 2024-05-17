@@ -2981,7 +2981,7 @@ body._menu-open .wrapper {
   padding: 5px 20px 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100%;
 }
 

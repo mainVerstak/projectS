@@ -2,6 +2,41 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
+  //+tooltip
+  document.querySelectorAll('.js-tooltip').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      let tooltip = btn.closest('.tooltip');
+      let drop = tooltip.querySelector('.tooltip__drop');
+      if (tooltip.classList.contains('_active')) {
+        tooltip.classList.remove('_active');
+        drop.style.transform = ''
+      } else {
+        let distanceLeft = btn.getBoundingClientRect().x + (btn.getBoundingClientRect().width / 2);
+        let distanceRight = window.innerWidth - distanceLeft;
+        let dropHalfWidht = drop.scrollWidth / 2;
+        if ((distanceLeft - 24) < dropHalfWidht) {
+          drop.style.transform = 'translateX(calc(-50% + ' + (dropHalfWidht - (distanceLeft - 24)) + 'px)) scale(1)';
+        } else if (distanceRight - 24 < dropHalfWidht) {
+          drop.style.transform = 'translateX(calc(-50% - ' + (dropHalfWidht - (distanceRight - 24)) + 'px)) scale(1)';
+        } else {
+          drop.style.transform = '';
+        }
+        tooltip.classList.add('_active');
+      }
+    })
+  });
+  document.addEventListener('click', function (e) {
+    let current = e.target.closest(".tooltip");
+    document.querySelectorAll('.tooltip._active').forEach(function (tooltip) {
+      if (tooltip != current) {
+        let drop = tooltip.querySelector('.tooltip__drop');
+        tooltip.classList.remove('_active');
+        drop.style.transform = '';
+      }
+    })
+  });
+  //-tooltip
+
   //+cookie
   function getCookie(cname) {
     let name = cname + "=";

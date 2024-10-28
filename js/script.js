@@ -1,6 +1,118 @@
 "use strict";
-
 document.addEventListener("DOMContentLoaded", function () {
+
+  //+set review rating
+  let reviewRating = document.querySelector('.js-set-rating');
+  if (reviewRating) {
+    let reviewRatingText = document.querySelector('.js-set-rating-text');
+    let ratingInner = reviewRating.querySelector('.rating__inner');
+    let ratingWidth = reviewRating.scrollWidth;
+    let currentValue = '100%';
+    let newValue = '100%';
+    let currentTextValue = '5/5';
+    let newTextValue = '5/5';
+    function updateRating(x) {
+      let width = Math.round(x / ratingWidth * 10) * 10;
+      if (Number(width) < 25) {
+        newValue = 20 + "%";
+        newTextValue = 1 + '/5';
+      } else if (Number(width) < 45) {
+        newValue = 40 + "%";
+        newTextValue = 2 + '/5';
+      } else if (Number(width) < 65) {
+        newValue = 60 + "%";
+        newTextValue = 3 + '/5';
+      } else if (Number(width) < 85) {
+        newValue = 80 + "%";
+        newTextValue = 4 + '/5';
+      } else {
+        newValue = 100 + "%";
+        newTextValue = 5 + '/5';
+      }
+      ratingInner.style.width = newValue;
+      reviewRatingText.textContent = newTextValue;
+    }
+    reviewRating.addEventListener('mouseenter', function (e) {
+      currentValue = ratingInner.style.width;
+      currentTextValue = reviewRatingText.textContent;
+    })
+    reviewRating.addEventListener('mousemove', function (e) {
+      updateRating(e.clientX - reviewRating.getBoundingClientRect().left);
+    })
+    reviewRating.addEventListener('mouseleave', function () {
+      ratingInner.style.width = currentValue;
+      reviewRatingText.textContent = currentTextValue;
+    })
+    reviewRating.addEventListener('click', function (e) {
+      currentValue = newValue;
+      ratingInner.style.width = newValue;
+      currentTextValue = newTextValue;
+      reviewRatingText.textContent = newTextValue;
+    })
+    reviewRating.addEventListener('touchstart', function (e) {
+      updateRating(e.touches[0].clientX - reviewRating.getBoundingClientRect().left);
+      currentValue = newValue;
+      ratingInner.style.width = newValue;
+      currentTextValue = newTextValue;
+      reviewRatingText.textContent = newTextValue;
+    })
+  }
+  //-set review rating
+
+  //+select card product + set price
+  let totalPrice = document.querySelector('.js-set-price');
+  let totalOldPrice = document.querySelector('.js-set-old-price');
+  let btnPrice = document.querySelector('.js-set-btn-price');
+  let orderName = document.querySelector('.js-set-order-name');
+  document.querySelectorAll('.js-select-card').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      let currentCard = btn.closest('.card-promo');
+      if (!currentCard.classList.contains('_selected')) {
+        document.querySelectorAll('.card-promo._selected').forEach(function (card) {
+          card.classList.remove('_selected');
+        });
+        currentCard.classList.add('_selected');
+        let name = currentCard.getAttribute('data-product');
+        let price = currentCard.getAttribute('data-price');
+        let oldPrice = currentCard.getAttribute('data-oldPrice');
+        totalPrice.textContent = price;
+        totalOldPrice.textContent = oldPrice;
+        btnPrice.textContent = price;
+        orderName.textContent = name;
+      }
+    })
+  });
+  //-select card product
+
+  //+show sample link + promo code
+  document.querySelectorAll('.js-hidden-box-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      let item = btn.closest('.js-hidden-box');
+      let drop = item.querySelector('.js-hidden-box-content');
+      if (item.classList.contains('_active')) {
+        dropHide(item, drop)
+      } else {
+        dropShow(item, drop)
+      }
+    })
+  });
+  function dropShow(item, drop) {
+    drop.style.maxHeight = drop.scrollHeight + "px";
+    item.classList.add('_active');
+    setTimeout(function () {
+      drop.style.maxHeight = "";
+    }, 400);
+  }
+  function dropHide(item, drop) {
+    drop.style.maxHeight = drop.offsetHeight + "px";
+    setTimeout(function () {
+      item.classList.remove('_active');
+    }, 10);
+    setTimeout(function () {
+      drop.style.maxHeight = "";
+    }, 400);
+  }
+  //-show sample link + promo code
 
   //+tooltip
   document.querySelectorAll('.js-tooltip').forEach(function (btn) {
@@ -333,6 +445,30 @@ document.addEventListener("DOMContentLoaded", function () {
       navigation: {
         nextEl: ".swiper-button-promo-next-" + index,
         prevEl: ".swiper-button-promo-prev-" + index,
+      }
+    });
+  })
+  document.querySelectorAll('.slider-review2').forEach(function (container, index) {
+    container.classList.add('slider-review2-' + index);
+    container.parentNode.querySelector('.swiper-button-next').classList.add('swiper-button-review-next-' + index);
+    container.parentNode.querySelector('.swiper-button-prev').classList.add('swiper-button-review-prev-' + index);
+    let swiperReview2 = new Swiper(".slider-review2-" + index, {
+      slidesPerView: 'auto',
+      spaceBetween: 2,
+      touchEventsTarget: 'container',
+      observer: true,
+      observeParents: true,
+      navigation: {
+        nextEl: ".swiper-button-review-next-" + index,
+        prevEl: ".swiper-button-review-prev-" + index,
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        }
       }
     });
   })

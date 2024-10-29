@@ -1,5 +1,149 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", function () {
+  //+ guarantee stats animation
+  let guaranteeList = document.querySelector('.guarantee-item__text-list');
+  if (guaranteeList) {
+    let guaranteeCounters = document.querySelectorAll('.guarantee-item__counter');
+    function counter(obj, duration) {
+      let end = obj.getAttribute('data-counter') || 776;
+      let current = 0;
+      let increment = end * 0.005;
+      let step = Math.abs(Math.floor(duration / end)) || 3;
+      console.log(step);
+      let animIterval = setInterval(() => {
+        current += increment;
+        obj.textContent = Math.floor(current);
+        if (current >= end) {
+          clearInterval(animIterval);
+          guaranteeList.classList.add('_animation');
+          obj.textContent = Math.floor(end);
+        }
+      }, step);
+    }
+    let observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          counter(entry.target, 4000);
+          observer.unobserve(entry.target)
+        }
+      })
+    }, {
+      rootMargin: "0px 0px -100px 0px",
+      threshold: 0.5
+    });
+    guaranteeCounters.forEach(function (counter) {
+      observer.observe(counter);
+    });
+
+    
+  }
+  //- guarantee stats animation
+
+  //+ delivered product animation
+  let deliveredAnimated = document.querySelector('.head-stats-item_likes');
+  if (deliveredAnimated) {
+    let deliveredAnimatedInner = document.querySelector('.head-stats-item__likes-outer');
+    let deliveredType = ['likes', 'followers', 'visits']
+    let oldItem = deliveredAnimatedInner.querySelector('.head-stats-item__likes-item:first-child');
+    let quantity = 1000;
+    setInterval(function () {
+      deliveredAnimatedInner.style.transition = '0.5s';
+      deliveredAnimatedInner.style.transform = 'translateY(-36px)'
+      setTimeout(function () {
+        oldItem = deliveredAnimatedInner.querySelector('.head-stats-item__likes-item:first-child');
+        deliveredAnimatedInner.append(oldItem);
+        deliveredAnimatedInner.style.transition = '';
+        deliveredAnimatedInner.style.transform = 'translateY(0)';
+        quantity = (Math.floor(Math.random() * 10 + 1) * 100) + ' ' + deliveredType[Math.floor(Math.random() * 3)];
+        oldItem.querySelector('.head-stats-item__likes-text').textContent = quantity;
+        oldItem.querySelector('.head-stats-item__time').textContent = Math.floor(Math.random() * 9 + 1) + ' mins ago';
+      }, 500);
+    }, 3500);
+  }
+  //- delivered product animation
+
+  //+promo code 
+  let promoCodeBtn = document.querySelector('.js-apply-promo-code');
+  let payBtn = document.querySelector('.js-pay-btn');
+  let promoField = document.querySelector('.promo-code-result');
+  if (promoCodeBtn) {
+    let promoCodeValue = 0.52;
+    let promoCodeValid = true;
+    promoCodeBtn.addEventListener('click', function (e) {
+      if (promoCodeValid) {
+        promoField.classList.remove('_error');
+        promoField.classList.add('_activated');
+        document.querySelector('.promo-code-result__value').textContent = euro.format(promoCodeValue);
+        let btnValue = payBtn.getAttribute('data-total-origin');
+        btnValue = btnValue - +promoCodeValue;
+        document.querySelector('.js-set-btn-price').textContent = euro.format(btnValue);
+      } else {
+        promoField.classList.remove('_activated');
+        promoField.classList.add('_error');
+      }
+    })
+  }
+  //-promo code 
+
+  //+select card product + set price
+  let totalPrice = document.querySelector('.js-set-price');
+  let totalOldPrice = document.querySelector('.js-set-old-price');
+  let btnPrice = document.querySelector('.js-set-btn-price');
+  let orderName = document.querySelector('.js-set-order-name');
+  document.querySelectorAll('.js-select-card').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      let currentCard = btn.closest('.card-promo');
+      if (!currentCard.classList.contains('_selected')) {
+        document.querySelectorAll('.card-promo._selected').forEach(function (card) {
+          card.classList.remove('_selected');
+        });
+        currentCard.classList.add('_selected');
+        let name = currentCard.getAttribute('data-product');
+        let price = currentCard.getAttribute('data-price');
+        let oldPrice = currentCard.getAttribute('data-oldPrice');
+        totalPrice.textContent = euro.format(price);
+        totalOldPrice.textContent = oldPrice;
+        payBtn.setAttribute('data-total-origin', price)
+        btnPrice.textContent = euro.format(price);
+        orderName.textContent = name;
+        if (promoField) {
+          promoField.classList.remove('_activated');
+          promoField.classList.remove('_error');
+        }
+      }
+    })
+  });
+  //-select card product
+
+  //+show sample link + promo code
+  document.querySelectorAll('.js-hidden-box-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      let item = btn.closest('.js-hidden-box');
+      let drop = item.querySelector('.js-hidden-box-content');
+      if (item.classList.contains('_active')) {
+        dropHide(item, drop)
+      } else {
+        dropShow(item, drop)
+      }
+    })
+  });
+  function dropShow(item, drop) {
+    drop.style.maxHeight = drop.scrollHeight + "px";
+    item.classList.add('_active');
+    setTimeout(function () {
+      drop.style.maxHeight = "";
+    }, 400);
+  }
+  function dropHide(item, drop) {
+    drop.style.maxHeight = drop.offsetHeight + "px";
+    setTimeout(function () {
+      item.classList.remove('_active');
+    }, 10);
+    setTimeout(function () {
+      drop.style.maxHeight = "";
+    }, 400);
+  }
+  //-show sample link + promo code
 
   //+set review rating
   let reviewRating = document.querySelector('.js-set-rating');
@@ -58,61 +202,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   }
   //-set review rating
-
-  //+select card product + set price
-  let totalPrice = document.querySelector('.js-set-price');
-  let totalOldPrice = document.querySelector('.js-set-old-price');
-  let btnPrice = document.querySelector('.js-set-btn-price');
-  let orderName = document.querySelector('.js-set-order-name');
-  document.querySelectorAll('.js-select-card').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      let currentCard = btn.closest('.card-promo');
-      if (!currentCard.classList.contains('_selected')) {
-        document.querySelectorAll('.card-promo._selected').forEach(function (card) {
-          card.classList.remove('_selected');
-        });
-        currentCard.classList.add('_selected');
-        let name = currentCard.getAttribute('data-product');
-        let price = currentCard.getAttribute('data-price');
-        let oldPrice = currentCard.getAttribute('data-oldPrice');
-        totalPrice.textContent = price;
-        totalOldPrice.textContent = oldPrice;
-        btnPrice.textContent = price;
-        orderName.textContent = name;
-      }
-    })
-  });
-  //-select card product
-
-  //+show sample link + promo code
-  document.querySelectorAll('.js-hidden-box-btn').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      let item = btn.closest('.js-hidden-box');
-      let drop = item.querySelector('.js-hidden-box-content');
-      if (item.classList.contains('_active')) {
-        dropHide(item, drop)
-      } else {
-        dropShow(item, drop)
-      }
-    })
-  });
-  function dropShow(item, drop) {
-    drop.style.maxHeight = drop.scrollHeight + "px";
-    item.classList.add('_active');
-    setTimeout(function () {
-      drop.style.maxHeight = "";
-    }, 400);
-  }
-  function dropHide(item, drop) {
-    drop.style.maxHeight = drop.offsetHeight + "px";
-    setTimeout(function () {
-      item.classList.remove('_active');
-    }, 10);
-    setTimeout(function () {
-      drop.style.maxHeight = "";
-    }, 400);
-  }
-  //-show sample link + promo code
 
   //+tooltip
   document.querySelectorAll('.js-tooltip').forEach(function (btn) {
@@ -574,6 +663,8 @@ document.addEventListener("DOMContentLoaded", function () {
   window.dispatchEvent(new Event('resize'));
   //-masonry
 });
+
+var euro = Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
 
 function elIndex(el) {
   if (!el) return -1;

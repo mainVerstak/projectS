@@ -1662,8 +1662,7 @@ body {
 }
 
 .card-review__source {
-  image-rendering: crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
 }
 
 .card-review__order {
@@ -4932,6 +4931,7 @@ body._menu-open .wrapper {
 .guarantee-item__text {
   min-width: 165px;
   font-size: 17px;
+  line-height: 21px;
   color: #000;
   height: 42px;
   overflow: hidden;
@@ -4961,19 +4961,19 @@ body._menu-open .wrapper {
   }
 
   33% {
-    transform: translateY(-33.33%);
+    transform: translateY(-33.4%);
   }
 
   61% {
-    transform: translateY(-33.33%);
+    transform: translateY(-33.4%);
   }
 
   66% {
-    transform: translateY(-66.66%);
+    transform: translateY(-66.7%);
   }
 
   95% {
-    transform: translateY(-66.66%);
+    transform: translateY(-66.7%);
   }
 }
 
@@ -6941,8 +6941,9 @@ body._menu-open .wrapper {
 
   .guarantee-item__text {
     font-size: 12px;
+    line-height: 16px;
     min-width: 118px;
-    height: 31px;
+    height: 32px;
   }
 
   .review-form__inner {

@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
       let current = 0;
       let increment = end * 0.005;
       let step = Math.abs(Math.floor(duration / end)) || 3;
-      console.log(step);
       let animIterval = setInterval(() => {
         current += increment;
         obj.textContent = Math.floor(current);
@@ -34,31 +33,30 @@ document.addEventListener("DOMContentLoaded", function () {
     guaranteeCounters.forEach(function (counter) {
       observer.observe(counter);
     });
-
-    
   }
   //- guarantee stats animation
 
   //+ delivered product animation
-  let deliveredAnimated = document.querySelector('.head-stats-item_likes');
+  let deliveredAnimated = document.querySelector('.head-stats-item__likes-outer');
   if (deliveredAnimated) {
-    let deliveredAnimatedInner = document.querySelector('.head-stats-item__likes-outer');
+    let delay = deliveredAnimated.getAttribute('data-anim-delay') || 3500;
+    let duration = deliveredAnimated.getAttribute('data-anim-duration') || 500;
     let deliveredType = ['likes', 'followers', 'visits']
-    let oldItem = deliveredAnimatedInner.querySelector('.head-stats-item__likes-item:first-child');
+    let oldItem = deliveredAnimated.querySelector('.head-stats-item__likes-item:first-child');
     let quantity = 1000;
     setInterval(function () {
-      deliveredAnimatedInner.style.transition = '0.5s';
-      deliveredAnimatedInner.style.transform = 'translateY(-36px)'
+      deliveredAnimated.style.transition = duration + 'ms';
+      deliveredAnimated.style.transform = 'translateY(-36px)'
       setTimeout(function () {
-        oldItem = deliveredAnimatedInner.querySelector('.head-stats-item__likes-item:first-child');
-        deliveredAnimatedInner.append(oldItem);
-        deliveredAnimatedInner.style.transition = '';
-        deliveredAnimatedInner.style.transform = 'translateY(0)';
+        oldItem = deliveredAnimated.querySelector('.head-stats-item__likes-item:first-child');
+        deliveredAnimated.append(oldItem);
+        deliveredAnimated.style.transition = '';
+        deliveredAnimated.style.transform = 'translateY(0)';
         quantity = (Math.floor(Math.random() * 10 + 1) * 100) + ' ' + deliveredType[Math.floor(Math.random() * 3)];
         oldItem.querySelector('.head-stats-item__likes-text').textContent = quantity;
         oldItem.querySelector('.head-stats-item__time').textContent = Math.floor(Math.random() * 9 + 1) + ' mins ago';
-      }, 500);
-    }, 3500);
+      }, duration);
+    }, delay);
   }
   //- delivered product animation
 

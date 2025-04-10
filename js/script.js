@@ -1,5 +1,41 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", function () {
+  //+ copy quote to clipboard
+  document.querySelectorAll('[data-copy-quote]').forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      let currentButton = this;
+      let value = this.getAttribute('data-copy-quote');
+      if (!value) {
+        value = this.parentNode.querySelector('.highlight-item__content').innerText;
+        value += ' <span><a href="' + document.location.origin + '" target="_blank">- Source: 100Seguidores</a></span>'
+      }
+      navigator.clipboard.writeText(value);
+      currentButton.classList.add('_show-tooltip');
+      setTimeout(function () {
+        currentButton.classList.remove('_show-tooltip');
+      }, 1500);
+    });
+  });
+  //- copy quoteto clipboard
+  //+ copy to clipboard
+  document.querySelectorAll('[data-copy]').forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      let currentButton = this;
+      let value = this.getAttribute('data-copy');
+      if (!value) {
+        value = window.location.href;
+      }
+      navigator.clipboard.writeText(value);
+      currentButton.classList.add('_show-tooltip');
+      setTimeout(function () {
+        currentButton.classList.remove('_show-tooltip');
+      }, 1500);
+    });
+  });
+  //- copy to clipboard
+
   //+ guarantee stats animation
   let guaranteeList = document.querySelector('.guarantee-item__text-list');
   if (guaranteeList) {

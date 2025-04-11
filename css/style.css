@@ -40,6 +40,10 @@
   color: #000;
 }
 
+.t-center {
+  text-align: center;
+}
+
 .t-black {
   color: #000;
 }
@@ -4372,6 +4376,18 @@ body._menu-open .wrapper {
 
 .blog-post__left {
   margin-right: 2px;
+}
+
+.blog-post__left:last-child {
+  margin-right: 0;
+}
+
+.blog-post__left:last-child .blog-post__authors {
+  justify-content: flex-start;
+}
+
+.blog-post__left:last-child .blog-post__fact-checked {
+  justify-content: flex-start;
 }
 
 .blog-post__breadcrumbs {
